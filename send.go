@@ -4,17 +4,20 @@ import (
 	"strings"
 	"time"
 
-	"gopkg.in/resty.v1"
+	resty "gopkg.in/resty.v1"
 )
 
 func send(message string) (reply string, err error) {
 	r := strings.NewReplacer("\"", " ", "{", "", "}", "")
 	message = r.Replace(message)
 
+	now := time.Now().Format("2006-1-2 15:04:05")
 	resp, e := resty.R().
 		SetQueryParams(map[string]string{
 			"user":    *receiver,
-			"content": message,
+			"toparty": *receiverParty,
+			"content": now + " " + message,
+			"expire":  *expire,
 		}).
 		Get(*wechatNotifyURL)
 
