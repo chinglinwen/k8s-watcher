@@ -52,28 +52,36 @@ start:
 		}
 		// spew.Dump("e", e)
 
-		message := fmt.Sprintf("%v: %v/%v reason:%v action: %v", e.GetType(), e.Metadata.GetNamespace(), e.Metadata.GetName(), e.GetReason(), e.GetNote())
+		message := formatevent(e)
 		log.Printf("%v", message)
 
 		reply, err := checkandsend(message)
 		if err != nil {
 			log.Printf("send err: %v\n", err)
 		}
-		log.Printf("send reply: %v\n", strings.TrimSpace(reply))
-
-		// ignore normal msg, since it's too many
-		// if *(pod.Status.Phase) == preStatus && eventType == "MODIFIED" {
-		// 	continue
-		// }
-
-		// message = fmt.Sprintln("event ", eventType, podname, *(pod.Status.Phase), *(pod.Status.Message), *(pod.Status.Reason))
-		// log.Printf("%v", message)
-		// reply, err = checkandsend(message)
-		// if err != nil {
-		// 	log.Printf("send err: %v\n", err)
-		// }
-		// log.Printf("send reply: %v\n", strings.TrimSpace(reply))
-
-		// m[podname] = *(pod.Status.Phase)
+		log.Printf("send reply: %v\n", strings.Split(reply, ",")[0])
 	}
+}
+
+func formatevent(e *coreevent.Event) string {
+	// a, _ := json.Marshal(e)
+	// fmt.Printf("json: %v", string(a))
+	t := `时间: %v
+类别: %v
+名字: %v/%v
+-----
+来源: %v
+原因: %v
+内容: %v`
+	now := time.Now().Format("2006-1-2 15:04:05")
+	// remove useless suffix
+	a := strings.Split(e.Metadata.GetName(), ".")
+	name := strings.Join(a[:len(a)-1], ".")
+
+	msg := e.GetNote()
+	if len(msg) > 300 {
+		msg = msg[:300] + "... (omited)"
+	}
+	kind := e.GetRegarding().GetKind()
+	return fmt.Sprintf(t, now, e.GetType(), e.Metadata.GetNamespace(), name, kind, e.GetReason(), msg)
 }

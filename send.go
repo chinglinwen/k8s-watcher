@@ -11,12 +11,11 @@ func send(message string) (reply string, err error) {
 	r := strings.NewReplacer("\"", " ", "{", "", "}", "")
 	message = r.Replace(message)
 
-	now := time.Now().Format("2006-1-2 15:04:05")
 	resp, e := resty.R().
 		SetQueryParams(map[string]string{
 			"user":    *receiver,
 			"toparty": *receiverParty,
-			"content": now + " " + message,
+			"content": message,
 			"expire":  *expire,
 		}).
 		Get(*wechatNotifyURL)
