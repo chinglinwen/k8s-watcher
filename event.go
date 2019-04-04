@@ -66,14 +66,13 @@ start:
 func formatevent(e *coreevent.Event) string {
 	// a, _ := json.Marshal(e)
 	// fmt.Printf("json: %v", string(a))
-	t := `时间: %v
-类别: %v
+	t := `类别: %v
 名字: %v/%v
 -----
 来源: %v
 原因: %v
 内容: %v`
-	now := time.Now().Format("2006-1-2 15:04:05")
+
 	// remove useless suffix
 	a := strings.Split(e.Metadata.GetName(), ".")
 	name := strings.Join(a[:len(a)-1], ".")
@@ -83,5 +82,5 @@ func formatevent(e *coreevent.Event) string {
 		msg = msg[:300] + "... (omited)"
 	}
 	kind := e.GetRegarding().GetKind()
-	return fmt.Sprintf(t, now, e.GetType(), e.Metadata.GetNamespace(), name, kind, e.GetReason(), msg)
+	return fmt.Sprintf(t, e.GetType(), e.Metadata.GetNamespace(), name, kind, e.GetReason(), msg)
 }

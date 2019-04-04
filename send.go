@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"regexp"
 	"strings"
 	"time"
@@ -36,16 +37,19 @@ func send(message string, options ...sendoption) (reply string, err error) {
 	for _, option := range options {
 		option(c)
 	}
+	now := time.Now().Format("2006-1-2 15:04:05")
+	precontent := fmt.Sprintf("时间: %v\n", now)
 
 	r := strings.NewReplacer("\"", " ", "{", "", "}", "")
 	message = r.Replace(message)
 
 	resp, e := resty.R().
 		SetQueryParams(map[string]string{
-			"user":    c.touser,
-			"toparty": c.toparty,
-			"content": message,
-			"expire":  *expire,
+			"user":       c.touser,
+			"toparty":    c.toparty,
+			"precontent": precontent,
+			"content":    message,
+			"expire":     *expire,
 		}).
 		Get(*wechatNotifyURL)
 

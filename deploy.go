@@ -74,10 +74,9 @@ start:
 func formatdeploy(e *deployv1beta1.Deployment, deployType string) string {
 	// a, _ := json.Marshal(e)
 	// fmt.Printf("json: %v", string(a))
-	t := `时间: %v
-名字: %v
+	t := `名字: %v
 部署状态: %v%v`
-	now := time.Now().Format("2006-1-2 15:04:05")
+
 	name := e.Metadata.GetNamespace() + "/" + e.Metadata.GetName()
 
 	ready := e.GetStatus().GetReadyReplicas()
@@ -92,5 +91,5 @@ func formatdeploy(e *deployv1beta1.Deployment, deployType string) string {
 		}
 	}
 
-	return fmt.Sprintf(t, now, name, strings.ToLower(deployType), msg)
+	return fmt.Sprintf(t, name, strings.ToLower(deployType), msg)
 }
