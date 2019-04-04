@@ -23,6 +23,8 @@ var (
 	receiverParty   = flag.String("party", "3", "default receiver party")
 	expire          = flag.String("e", "10m", "default expire time duration")
 
+	annotationName = flag.String("a", "wechat", "deploy annotation name")
+
 	// init interval
 	interval = 2
 
@@ -61,6 +63,7 @@ func main() {
 		log.Println("args receiver and party is empty")
 		return
 	}
+	go watchdeploy()
 	nodeList()
 	watchevent()
 }
