@@ -16,6 +16,8 @@ import (
 
 */
 func watchevent() {
+	// clean old event first
+	cleanEvent()
 
 start:
 	var e coreevent.Event
@@ -55,6 +57,16 @@ start:
 		message := formatevent(e)
 		log.Printf("%v", message)
 
+		ts := e.GetMetadata().GetCreationTimestamp()
+		t := time.Unix(ts.GetSeconds(), int64(ts.GetNanos()))
+		now := time.Now()
+		if t.Add(1 * time.Minute).Before(now) {
+			log.Printf("ignore old event than 1 minutes, created: %v, now: %v\n\n",
+				t.Format("2006-1-2 15:04:05"),
+				now.Format("2006-1-2 15:04:05"))
+			continue
+		}
+
 		reply, err := checkandsend(message)
 		if err != nil {
 			log.Printf("send err: %v\n", err)
@@ -83,4 +95,14 @@ func formatevent(e *coreevent.Event) string {
 	}
 	kind := e.GetRegarding().GetKind()
 	return fmt.Sprintf(t, e.GetType(), e.Metadata.GetNamespace(), name, kind, e.GetReason(), msg)
+}
+
+func cleanEvent() {
+	var e coreevent.Event
+	err := client.Delete(context.Background(), &e)
+	if err != nil {
+		log.Println("clean event err:", err)
+		return
+	}
+	log.Println("clean event ok")
 }
