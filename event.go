@@ -52,7 +52,7 @@ start:
 			log.Println("ignore normal event")
 			continue
 		}
-		// spew.Dump("e", e)
+		//spew.Dump("e", e)
 
 		message := formatevent(e)
 		log.Printf("%v", message)
@@ -81,7 +81,7 @@ func formatevent(e *coreevent.Event) string {
 	t := `类别: %v
 名字: %v/%v
 -----
-来源: %v
+来源: %v (%v %v)
 原因: %v
 内容: %v`
 
@@ -94,7 +94,8 @@ func formatevent(e *coreevent.Event) string {
 		msg = msg[:300] + "... (omited)"
 	}
 	kind := e.GetRegarding().GetKind()
-	return fmt.Sprintf(t, e.GetType(), e.Metadata.GetNamespace(), name, kind, e.GetReason(), msg)
+	return fmt.Sprintf(t, e.GetType(), e.Metadata.GetNamespace(), name, kind,
+		e.DeprecatedSource.GetComponent(), e.DeprecatedSource.GetHost(), e.GetReason(), msg)
 }
 
 func cleanEvent() {
