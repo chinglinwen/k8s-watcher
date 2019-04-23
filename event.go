@@ -47,8 +47,14 @@ start:
 		_ = eventType
 		// fmt.Println("eventType: ", eventType)
 
+		skip := true
+
+		if strings.Contains(e.GetReason(), "Killing") {
+			log.Println("found pod killing will not skip")
+			skip = false
+		}
 		// ignore normal action
-		if e.GetType() == "Normal" {
+		if e.GetType() == "Normal" && skip {
 			log.Println("ignore normal event")
 			continue
 		}
