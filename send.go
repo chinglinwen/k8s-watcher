@@ -47,6 +47,8 @@ func send(message string, options ...sendoption) (reply string, err error) {
 		SetQueryParams(map[string]string{
 			"user":       c.touser,
 			"toparty":    c.toparty,
+			"agentid":    *agentid,
+			"secret":     *secret,
 			"precontent": precontent,
 			"content":    message,
 			"expire":     *expire,

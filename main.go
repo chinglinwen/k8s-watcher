@@ -21,7 +21,10 @@ var (
 	wechatNotifyURL = flag.String("w", "http://localhost:8001", "wechat notify service url")
 	receiver        = flag.String("r", "", "default wechat receiver")
 	receiverParty   = flag.String("party", "", "default receiver party ( eg. 3 )")
-	expire          = flag.String("e", "10m", "default expire time duration")
+	agentid         = flag.String("agentid", "", "default agentid ( eg. 1000003 )")
+	secret          = flag.String("secret", "", "default secret ( eg. G5h7CTEqkBw-Fe3luf2JM8UNNJAcYTpbXvpveY7M3lg )")
+
+	expire = flag.String("e", "10m", "default expire time duration")
 
 	annotationName = flag.String("a", "wechat", "deploy annotation name")
 
