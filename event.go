@@ -50,15 +50,17 @@ start:
 		skip := true
 
 		if strings.Contains(e.GetReason(), "Killing") {
-			log.Println("found pod killing will not skip")
-			skip = false
+			if strings.Contains(e.GetNote(), "restarted") {
+				log.Println("found pod killing will not skip")
+				skip = false
+			}
 		}
 		// ignore normal action
 		if e.GetType() == "Normal" && skip {
 			log.Println("ignore normal event")
 			continue
 		}
-		//spew.Dump("e", e)
+		// spew.Dump("e", e)
 
 		message := formatevent(e)
 		log.Printf("%v", message)
@@ -99,9 +101,15 @@ func formatevent(e *coreevent.Event) string {
 	if len(msg) > 300 {
 		msg = msg[:300] + "... (omited)"
 	}
+	count := e.GetDeprecatedCount()
+	reason := e.GetReason()
+	if e.GetType() == "Normal" {
+		reason += fmt.Sprintf(" (次数: %v)", count)
+	}
+
 	kind := e.GetRegarding().GetKind()
 	return fmt.Sprintf(t, e.GetType(), e.Metadata.GetNamespace(), name, kind,
-		e.DeprecatedSource.GetComponent(), e.DeprecatedSource.GetHost(), e.GetReason(), msg)
+		e.DeprecatedSource.GetComponent(), e.DeprecatedSource.GetHost(), reason, msg)
 }
 
 func cleanEvent() {

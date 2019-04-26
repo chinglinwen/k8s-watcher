@@ -47,6 +47,9 @@ func init() {
 	} else {
 		kubeconfig = flag.String("kubeconfig", "", "absolute path to the kubeconfig file")
 	}
+	if k := os.Getenv("KUBECONFIG"); k != "" {
+		*kubeconfig = k
+	}
 	flag.Parse()
 
 	//client, err := k8s.NewInClusterClient()
