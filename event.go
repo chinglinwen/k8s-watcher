@@ -10,6 +10,8 @@ import (
 	coreevent "github.com/ericchiang/k8s/apis/events/v1beta1"
 )
 
+const layout = "2006-1-2 15:04:05"
+
 /*
 
 (*v1beta1.Event)(0xc0002741b0)(metadata:<name:"adm-old-online-c58969bc6-nnknb.1591da15b31f3c4e" generateName:"" namespace:"xindaiquan" selfLink:"/apis/events.k8s.io/v1beta1/namespaces/xindaiquan/events/adm-old-online-c58969bc6-nnknb.1591da15b31f3c4e" uid:"eee587a4-55c2-11e9-8fd4-1e5e900bfc2b" resourceVersion:"67969050" generation:0 creationTimestamp:<seconds:1554263133 nanos:0 > clusterName:"" > eventTime:<> reportingController:"" reportingInstance:"" action:"" reason:"FailedMount" regarding:<kind:"Pod" namespace:"xindaiquan" name:"adm-old-online-c58969bc6-nnknb" uid:"a569e310-55c2-11e9-bf66-cef85e680407" apiVersion:"v1" resourceVersion:"67936340" fieldPath:"" > note:"Unable to mount volumes for pod \"adm-old-online-c58969bc6-nnknb_xindaiquan(a569e310-55c2-11e9-bf66-cef85e680407)\": timeout expired waiting for volumes to attach/mount for pod \"xindaiquan\"/\"adm-old-online-c58969bc6-nnknb\". list of unattached/unmounted volumes=[adm-public adm-bank adm-xindaiyuan adm-common]" type:"Warning" deprecatedSource:<component:"kubelet" host:"172.31.82.85" > deprecatedFirstTimestamp:<seconds:1554263133 nanos:0 > deprecatedLastTimestamp:<seconds:1554272651 nanos:0 > deprecatedCount:71 )
@@ -65,18 +67,24 @@ start:
 		message := formatevent(e)
 		log.Printf("%v", message)
 
-		// no ignore of killing event
-		if !strings.Contains(e.GetReason(), "Killing") {
-			ts := e.GetMetadata().GetCreationTimestamp()
-			t := time.Unix(ts.GetSeconds(), int64(ts.GetNanos()))
-			now := time.Now()
-			if t.Add(1 * time.Minute).Before(now) {
-				log.Printf("ignore old event than 1 minutes, created: %v, now: %v\n\n",
-					t.Format("2006-1-2 15:04:05"),
-					now.Format("2006-1-2 15:04:05"))
-				continue
-			}
+		// // no ignore of killing event
+		// if !strings.Contains(e.GetReason(), "Killing") {
+		ts := e.GetMetadata().GetCreationTimestamp()
+		t := time.Unix(ts.GetSeconds(), int64(ts.GetNanos()))
+		now := time.Now()
+
+		timeRange := 1 * time.Minute
+		if strings.Contains(e.GetReason(), "Killing") {
+			timeRange = 10 * time.Minute // extend time range for killing events, so we can receive more events
 		}
+		if t.Add(timeRange).Before(now) {
+			log.Printf("ignore old event than %v, created: %v, now: %v\n\n",
+				timeRange,
+				t.Format(layout),
+				now.Format(layout))
+			continue
+		}
+		// }
 
 		reply, err := checkandsend(message)
 		if err != nil {
@@ -104,6 +112,13 @@ func formatevent(e *coreevent.Event) string {
 	if len(msg) > 300 {
 		msg = msg[:300] + "... (omited)"
 	}
+
+	if strings.Contains(e.GetReason(), "Killing") {
+		ts := e.GetMetadata().GetCreationTimestamp()
+		createTime := time.Unix(ts.GetSeconds(), int64(ts.GetNanos()))
+		msg = fmt.Sprintf("%v\ncreateTime: %v", msg, createTime.Format(layout))
+	}
+
 	count := e.GetDeprecatedCount()
 	reason := e.GetReason()
 	if strings.Contains(e.GetNote(), "restart") {
