@@ -26,7 +26,7 @@ var (
 
 	expire = flag.String("e", "10m", "default expire time duration")
 
-	annotationName = flag.String("a", "wechat", "deploy annotation name")
+	annotationName = flag.String("a", "publish_user", "deploy annotation name")
 
 	// init interval
 	interval = 2
