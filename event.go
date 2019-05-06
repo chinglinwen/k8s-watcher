@@ -67,6 +67,12 @@ start:
 		message := formatevent(e)
 		log.Printf("%v", message)
 
+		// ignore kube-router hostnetwork sometimes timeout issue
+		if strings.Contains(e.GetNote(), "(Client.Timeout") {
+			log.Println("ignore known-issue of Client.Timeout by kube-router")
+			continue
+		}
+
 		// // no ignore of killing event
 		// if !strings.Contains(e.GetReason(), "Killing") {
 		ts := e.GetMetadata().GetCreationTimestamp()

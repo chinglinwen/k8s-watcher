@@ -40,13 +40,6 @@ start:
 		// _ = deployType
 		// fmt.Println("deployType: ", deployType)
 
-		// ignore normal action
-		an := e.GetMetadata().GetAnnotations()
-		person := an[*annotationName]
-		if person == "" {
-			continue
-		}
-
 		// spew.Dump(e.GetStatus())
 
 		// a, _ := json.Marshal(e)
@@ -63,11 +56,24 @@ start:
 		message := formatdeploy(e, deployType)
 		fmt.Printf("%v\n", message)
 
-		reply, err := checkandsend(message, SetReceiver(person))
+		// send to ops
+		reply, err := checkandsend(message)
 		if err != nil {
-			log.Printf("send err: %v\n", err)
+			log.Printf("send to ops err: %v\n", err)
 		}
-		log.Printf("send reply: %v\n", strings.Split(reply, ",")[0])
+		log.Printf("send to ops reply: %v\n", strings.Split(reply, ",")[0])
+
+		// if set, send to specific receiver ( service owner )
+		an := e.GetMetadata().GetAnnotations()
+		person := an[*annotationName]
+		if person == "" {
+			continue
+		}
+		reply, err = checkandsend(message, SetReceiver(person))
+		if err != nil {
+			log.Printf("send to %v err: %v\n", person, err)
+		}
+		log.Printf("send to %v reply: %v\n", person, strings.Split(reply, ",")[0])
 	}
 }
 
