@@ -53,6 +53,19 @@ start:
 			// deployType="ready"
 		}
 
+		// ignore old event
+		ts := e.GetMetadata().GetCreationTimestamp()
+		t := time.Unix(ts.GetSeconds(), int64(ts.GetNanos()))
+		now := time.Now()
+		timeRange := 1 * time.Minute
+		if t.Add(timeRange).Before(now) {
+			log.Printf("ignore old event than %v, created: %v, now: %v\n\n",
+				timeRange,
+				t.Format(layout),
+				now.Format(layout))
+			continue
+		}
+
 		message := formatdeploy(e, deployType)
 		fmt.Printf("%v\n", message)
 
