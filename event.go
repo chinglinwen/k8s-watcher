@@ -73,6 +73,13 @@ start:
 			continue
 		}
 
+		// ignore apiserver healthz timeout
+		if strings.Contains(e.Metadata.GetName(), "kube-apiserver") &&
+			strings.Contains(e.GetNote(), "connection timed out") {
+			log.Println("ignore known-issue of connect timeout by kube-router")
+			continue
+		}
+
 		// // no ignore of killing event
 		// if !strings.Contains(e.GetReason(), "Killing") {
 		ts := e.GetMetadata().GetCreationTimestamp()
