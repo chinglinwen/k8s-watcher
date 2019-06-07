@@ -49,62 +49,67 @@ start:
 		_ = eventType
 		// fmt.Println("eventType: ", eventType)
 
-		skip := true
-
-		if strings.Contains(e.GetReason(), "Killing") {
-			if strings.Contains(e.GetNote(), "restart") {
-				log.Println("found pod killing will not skip")
-				skip = false
-			}
-		}
-		// ignore normal action
-		if e.GetType() == "Normal" && skip {
-			log.Println("ignore normal event")
-			continue
-		}
-		// spew.Dump("e", e)
-
-		message := formatevent(e)
-		log.Printf("%v", message)
-
-		// ignore kube-router hostnetwork sometimes timeout issue
-		if strings.Contains(e.GetNote(), "(Client.Timeout") {
-			log.Println("ignore known-issue of Client.Timeout by kube-router")
-			continue
-		}
-
-		// ignore apiserver healthz timeout
-		if strings.Contains(e.Metadata.GetName(), "kube-apiserver") &&
-			strings.Contains(e.GetNote(), "connection timed out") {
-			log.Println("ignore known-issue of connect timeout by kube-router")
-			continue
-		}
-
-		// // no ignore of killing event
-		// if !strings.Contains(e.GetReason(), "Killing") {
-		ts := e.GetMetadata().GetCreationTimestamp()
-		t := time.Unix(ts.GetSeconds(), int64(ts.GetNanos()))
-		now := time.Now()
-
-		timeRange := 1 * time.Minute
-		if strings.Contains(e.GetReason(), "Killing") {
-			timeRange = 10 * time.Minute // extend time range for killing events, so we can receive more events
-		}
-		if t.Add(timeRange).Before(now) {
-			log.Printf("ignore old event than %v, created: %v, now: %v\n\n",
-				timeRange,
-				t.Format(layout),
-				now.Format(layout))
-			continue
-		}
-		// }
-
-		reply, err := checkandsend(message)
-		if err != nil {
-			log.Printf("send err: %v\n", err)
-		}
-		log.Printf("send reply: %v\n", strings.Split(reply, ",")[0])
+		go consumerFluentd(e)
+		consumerAlert(e)
 	}
+}
+
+func consumerAlert(e *coreevent.Event) {
+	skip := true
+
+	if strings.Contains(e.GetReason(), "Killing") {
+		if strings.Contains(e.GetNote(), "restart") {
+			log.Println("found pod killing will not skip")
+			skip = false
+		}
+	}
+	// ignore normal action
+	if e.GetType() == "Normal" && skip {
+		log.Println("ignore normal event")
+		return
+	}
+	// spew.Dump("e", e)
+
+	message := formatevent(e)
+	log.Printf("%v", message)
+
+	// ignore kube-router hostnetwork sometimes timeout issue
+	if strings.Contains(e.GetNote(), "(Client.Timeout") {
+		log.Println("ignore known-issue of Client.Timeout by kube-router")
+		return
+	}
+
+	// ignore apiserver healthz timeout
+	if strings.Contains(e.Metadata.GetName(), "kube-apiserver") &&
+		strings.Contains(e.GetNote(), "connection timed out") {
+		log.Println("ignore known-issue of connect timeout by kube-router")
+		return
+	}
+
+	// // no ignore of killing event
+	// if !strings.Contains(e.GetReason(), "Killing") {
+	ts := e.GetMetadata().GetCreationTimestamp()
+	t := time.Unix(ts.GetSeconds(), int64(ts.GetNanos()))
+	now := time.Now()
+
+	timeRange := 1 * time.Minute
+	if strings.Contains(e.GetReason(), "Killing") {
+		timeRange = 10 * time.Minute // extend time range for killing events, so we can receive more events
+	}
+	if t.Add(timeRange).Before(now) {
+		log.Printf("ignore old event than %v, created: %v, now: %v\n\n",
+			timeRange,
+			t.Format(layout),
+			now.Format(layout))
+		return
+	}
+	// }
+
+	reply, err := checkandsend(message)
+	if err != nil {
+		log.Printf("send err: %v\n", err)
+	}
+	log.Printf("send reply: %v\n", strings.Split(reply, ",")[0])
 }
 
 func formatevent(e *coreevent.Event) string {
