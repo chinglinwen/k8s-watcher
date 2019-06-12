@@ -1,15 +1,15 @@
 package main
 
 import (
-	coreevent "github.com/ericchiang/k8s/apis/events/v1beta1"
-	"net"
-	"log"
-	"encoding/json"
-	"github.com/pkg/errors"
-	"time"
-	"fmt"
-	"flag"
 	"bytes"
+	"encoding/json"
+	"flag"
+	"fmt"
+	"log"
+	"net"
+	"time"
+
+	coreevent "github.com/ericchiang/k8s/apis/events/v1beta1"
 )
 
 var connFluentd net.Conn
@@ -23,17 +23,19 @@ func init() {
 	}
 }
 
-func consumerFluentd(e *coreevent.Event) error {
-	buf, err := json.Marshal(e)
+func consumerFluentd(e *coreevent.Event) (err error) {
+	buf, err := json.MarshalIndent(e, "", " ")
 	if err != nil {
-		return errors.New(err.Error())
+		err = fmt.Errorf("marshal event err", err)
+		return
 	}
+	log.Printf("event: %v\n", string(buf))
 
 	ts := e.GetMetadata().GetCreationTimestamp()
 	tsStr := time.Unix(ts.GetSeconds(), int64(ts.GetNanos())).Format("2006-01-02T15:04:05Z07:00")
 
 	buf = bytes.Replace(buf, []byte(`"eventTime":`), []byte(fmt.Sprintf(`"@timestamp":"%s","eventTime":`, tsStr)), 1)
-	connFluentd.Write(buf)
+	_, err = connFluentd.Write(buf)
 
-	return nil
+	return
 }
