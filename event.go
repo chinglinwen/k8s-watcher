@@ -86,6 +86,11 @@ func consumerAlert(e *coreevent.Event) {
 		return
 	}
 
+	if strings.Contains(e.GetNote(), "to cgroup.procs: write") {
+		log.Println("ignore known-issue of cgrouup.procs")
+		return
+	}
+
 	// // no ignore of killing event
 	// if !strings.Contains(e.GetReason(), "Killing") {
 	ts := e.GetMetadata().GetCreationTimestamp()
