@@ -74,7 +74,8 @@ func consumerAlert(e *coreevent.Event) {
 	log.Printf("%v", message)
 
 	// ignore kube-router hostnetwork sometimes timeout issue
-	if strings.Contains(e.GetNote(), "(Client.Timeout") {
+	if strings.Contains(e.GetNote(), "(Client.Timeout") ||
+		strings.Contains(e.GetNote(), "Get http://172.31") {
 		log.Println("ignore known-issue of Client.Timeout by kube-router")
 		return
 	}

@@ -1,7 +1,7 @@
 #!/bin/sh
 # build image
 suffix="$1"
-suffix=${suffix:=v1}
+suffix=${suffix:=v1.1}
 
 go build
 
