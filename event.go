@@ -75,7 +75,7 @@ func consumerAlert(e *coreevent.Event) {
 
 	// ignore kube-router hostnetwork sometimes timeout issue
 	if strings.Contains(e.GetNote(), "(Client.Timeout") ||
-		strings.Contains(e.GetNote(), "Get http://172.31") {
+		strings.Contains(e.GetNote(), "Get http://172.") {
 		log.Println("ignore known-issue of Client.Timeout by kube-router")
 		return
 	}
@@ -89,6 +89,11 @@ func consumerAlert(e *coreevent.Event) {
 
 	if strings.Contains(e.GetNote(), "to cgroup.procs: write") {
 		log.Println("ignore known-issue of cgrouup.procs")
+		return
+	}
+
+	if e.Metadata.GetNamespace() == "wenzhenglin" {
+		log.Println("ignore wen's test project")
 		return
 	}
 
