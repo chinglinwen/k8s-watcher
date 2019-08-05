@@ -10,7 +10,7 @@ import (
 	deployv1beta1 "github.com/ericchiang/k8s/apis/extensions/v1beta1"
 )
 
-func watchdeploy() {
+func watchDeploy() {
 
 start:
 	var e deployv1beta1.Deployment

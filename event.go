@@ -64,6 +64,11 @@ func consumerAlert(e *coreevent.Event) {
 		}
 	}
 
+	if strings.Contains(e.GetNote(), "please try again") {
+		log.Println("skip stateful try again event")
+		skip = false
+	}
+
 	if e.GetRegarding().GetKind() == "DaemonSet" {
 		if e.GetReason() != "SuccessfulCreate" {
 			skip = false

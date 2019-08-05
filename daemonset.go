@@ -10,7 +10,7 @@ import (
 	dsv1beta1 "github.com/ericchiang/k8s/apis/extensions/v1beta1"
 )
 
-func watchdaemon() {
+func watchDaemon() {
 
 start:
 	var e dsv1beta1.DaemonSet

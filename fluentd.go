@@ -29,7 +29,7 @@ func consumerFluentd(e *coreevent.Event) (err error) {
 		err = fmt.Errorf("marshal event err", err)
 		return
 	}
-	log.Printf("event: %v\n", string(buf))
+	// log.Printf("event: %v\n", string(buf))
 
 	ts := e.GetMetadata().GetCreationTimestamp()
 	tsStr := time.Unix(ts.GetSeconds(), int64(ts.GetNanos())).Format("2006-01-02T15:04:05Z07:00")

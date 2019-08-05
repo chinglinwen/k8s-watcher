@@ -71,8 +71,9 @@ func main() {
 		return
 	}
 
-	go watchdeploy()
-	go watchdaemon()
+	go watchDeploy()
+	go watchDaemon()
+	go watchStatefulSet()
 	nodeList()
 	watchevent()
 }
