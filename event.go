@@ -63,6 +63,13 @@ func consumerAlert(e *coreevent.Event) {
 			skip = false
 		}
 	}
+
+	if e.GetRegarding().GetKind() == "DaemonSet" {
+		if e.GetReason() != "SuccessfulCreate" {
+			skip = false
+		}
+	}
+
 	// ignore normal action
 	if e.GetType() == "Normal" && skip {
 		log.Println("ignore normal event")

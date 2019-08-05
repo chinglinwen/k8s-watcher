@@ -1,0 +1,261 @@
+2019/08/05 11:04:10 event: {
+ "metadata": {
+  "name": "fstest-jvfr2.15b7e7ce6daa4e95",
+  "generateName": "",
+  "namespace": "yunwei",
+  "selfLink": "/apis/events.k8s.io/v1beta1/namespaces/yunwei/events/fstest-jvfr2.15b7e7ce6daa4e95",
+  "uid": "bd8f1fc4-b72d-11e9-8753-767ef6f517db",
+  "resourceVersion": "43496436",
+  "generation": 0,
+  "creationTimestamp": "2019-08-05T11:04:29+08:00",
+  "clusterName": ""
+ },
+ "eventTime": {},
+ "reportingController": "",
+ "reportingInstance": "",
+ "action": "",
+ "reason": "Killing",
+ "regarding": {
+  "kind": "Pod",
+  "namespace": "yunwei",
+  "name": "fstest-jvfr2",
+  "uid": "484fcc36-b506-11e9-8753-767ef6f517db",
+  "apiVersion": "v1",
+  "resourceVersion": "41220946",
+  "fieldPath": "spec.containers{fstest}"
+ },
+ "note": "Stopping container fstest",
+ "type": "Normal",
+ "deprecatedSource": {
+  "component": "kubelet",
+  "host": "172.31.81.121"
+ },
+ "deprecatedFirstTimestamp": "2019-08-05T11:04:29+08:00",
+ "deprecatedLastTimestamp": "2019-08-05T11:04:29+08:00",
+ "deprecatedCount": 1
+}
+
+
+
+2019/08/05 11:07:00 event: {
+ "metadata": {
+  "name": "fstest.15b7e7f6063481c2",
+  "generateName": "",
+  "namespace": "yunwei",
+  "selfLink": "/apis/events.k8s.io/v1beta1/namespaces/yunwei/events/fstest.15b7e7f6063481c2",
+  "uid": "22ed9481-b72e-11e9-8753-767ef6f517db",
+  "resourceVersion": "43498186",
+  "generation": 0,
+  "creationTimestamp": "2019-08-05T11:07:19+08:00",
+  "clusterName": ""
+ },
+ "eventTime": {},
+ "reportingController": "",
+ "reportingInstance": "",
+ "action": "",
+ "reason": "SuccessfulCreate",
+ "regarding": {
+  "kind": "DaemonSet",
+  "namespace": "yunwei",
+  "name": "fstest",
+  "uid": "22e75052-b72e-11e9-9e84-369c7c34da16",
+  "apiVersion": "apps/v1",
+  "resourceVersion": "43498182",
+  "fieldPath": ""
+ },
+ "note": "Created pod: fstest-ltlx6",
+ "type": "Normal",
+ "deprecatedSource": {
+  "component": "daemonset-controller",
+  "host": ""
+ },
+ "deprecatedFirstTimestamp": "2019-08-05T11:07:19+08:00",
+ "deprecatedLastTimestamp": "2019-08-05T11:07:19+08:00",
+ "deprecatedCount": 1
+}
+2019/08/05 11:07:00 ignore normal event
+2019/08/05 11:07:00 event: {
+ "metadata": {
+  "name": "fstest-ltlx6.15b7e7f60857daff",
+  "generateName": "",
+  "namespace": "yunwei",
+  "selfLink": "/apis/events.k8s.io/v1beta1/namespaces/yunwei/events/fstest-ltlx6.15b7e7f60857daff",
+  "uid": "22f316d1-b72e-11e9-9e84-369c7c34da16",
+  "resourceVersion": "43498188",
+  "generation": 0,
+  "creationTimestamp": "2019-08-05T11:07:19+08:00",
+  "clusterName": ""
+ },
+ "eventTime": {},
+ "reportingController": "",
+ "reportingInstance": "",
+ "action": "",
+ "reason": "Scheduled",
+ "regarding": {
+  "kind": "Pod",
+  "namespace": "yunwei",
+  "name": "fstest-ltlx6",
+  "uid": "22eb61ec-b72e-11e9-8753-767ef6f517db",
+  "apiVersion": "v1",
+  "resourceVersion": "43498184",
+  "fieldPath": ""
+ },
+ "note": "Successfully assigned yunwei/fstest-ltlx6 to 172.31.90.50",
+ "type": "Normal",
+ "deprecatedSource": {
+  "component": "default-scheduler",
+  "host": ""
+ },
+ "deprecatedFirstTimestamp": "2019-08-05T11:07:19+08:00",
+ "deprecatedLastTimestamp": "2019-08-05T11:07:19+08:00",
+ "deprecatedCount": 1
+}
+
+2019/08/05 11:07:04 ignore normal event
+2019/08/05 11:07:04 event: {
+ "metadata": {
+  "name": "fstest-ltlx6.15b7e7f6fca61ccf",
+  "generateName": "",
+  "namespace": "yunwei",
+  "selfLink": "/apis/events.k8s.io/v1beta1/namespaces/yunwei/events/fstest-ltlx6.15b7e7f6fca61ccf",
+  "uid": "2566a37c-b72e-11e9-9e84-369c7c34da16",
+  "resourceVersion": "43498223",
+  "generation": 0,
+  "creationTimestamp": "2019-08-05T11:07:23+08:00",
+  "clusterName": ""
+ },
+ "eventTime": {},
+ "reportingController": "",
+ "reportingInstance": "",
+ "action": "",
+ "reason": "Pulling",
+ "regarding": {
+  "kind": "Pod",
+  "namespace": "yunwei",
+  "name": "fstest-ltlx6",
+  "uid": "22eb61ec-b72e-11e9-8753-767ef6f517db",
+  "apiVersion": "v1",
+  "resourceVersion": "43498185",
+  "fieldPath": "spec.containers{fstest}"
+ },
+ "note": "Pulling image \"chinglinwen/fs\"",
+ "type": "Normal",
+ "deprecatedSource": {
+  "component": "kubelet",
+  "host": "172.31.90.50"
+ },
+ "deprecatedFirstTimestamp": "2019-08-05T11:07:23+08:00",
+ "deprecatedLastTimestamp": "2019-08-05T11:07:23+08:00",
+ "deprecatedCount": 1
+}
+2019/08/05 11:07:05 ignore normal event
+2019/08/05 11:07:05 event: {
+ "metadata": {
+  "name": "fstest-ltlx6.15b7e7f7446087b0",
+  "generateName": "",
+  "namespace": "yunwei",
+  "selfLink": "/apis/events.k8s.io/v1beta1/namespaces/yunwei/events/fstest-ltlx6.15b7e7f7446087b0",
+  "uid": "261e41ad-b72e-11e9-9e84-369c7c34da16",
+  "resourceVersion": "43498237",
+  "generation": 0,
+  "creationTimestamp": "2019-08-05T11:07:24+08:00",
+  "clusterName": ""
+ },
+ "eventTime": {},
+ "reportingController": "",
+ "reportingInstance": "",
+ "action": "",
+ "reason": "Pulled",
+ "regarding": {
+  "kind": "Pod",
+  "namespace": "yunwei",
+  "name": "fstest-ltlx6",
+  "uid": "22eb61ec-b72e-11e9-8753-767ef6f517db",
+  "apiVersion": "v1",
+  "resourceVersion": "43498185",
+  "fieldPath": "spec.containers{fstest}"
+ },
+ "note": "Successfully pulled image \"chinglinwen/fs\"",
+ "type": "Normal",
+ "deprecatedSource": {
+  "component": "kubelet",
+  "host": "172.31.90.50"
+ },
+ "deprecatedFirstTimestamp": "2019-08-05T11:07:24+08:00",
+ "deprecatedLastTimestamp": "2019-08-05T11:07:24+08:00",
+ "deprecatedCount": 1
+}
+2019/08/05 11:07:07 ignore normal event
+2019/08/05 11:07:07 event: {
+ "metadata": {
+  "name": "fstest-ltlx6.15b7e7f79ff0e9a4",
+  "generateName": "",
+  "namespace": "yunwei",
+  "selfLink": "/apis/events.k8s.io/v1beta1/namespaces/yunwei/events/fstest-ltlx6.15b7e7f79ff0e9a4",
+  "uid": "2708b575-b72e-11e9-9e84-369c7c34da16",
+  "resourceVersion": "43498249",
+  "generation": 0,
+  "creationTimestamp": "2019-08-05T11:07:26+08:00",
+  "clusterName": ""
+ },
+ "eventTime": {},
+ "reportingController": "",
+ "reportingInstance": "",
+ "action": "",
+ "reason": "Created",
+ "regarding": {
+  "kind": "Pod",
+  "namespace": "yunwei",
+  "name": "fstest-ltlx6",
+  "uid": "22eb61ec-b72e-11e9-8753-767ef6f517db",
+  "apiVersion": "v1",
+  "resourceVersion": "43498185",
+  "fieldPath": "spec.containers{fstest}"
+ },
+ "note": "Created container fstest",
+ "type": "Normal",
+ "deprecatedSource": {
+  "component": "kubelet",
+  "host": "172.31.90.50"
+ },
+ "deprecatedFirstTimestamp": "2019-08-05T11:07:26+08:00",
+ "deprecatedLastTimestamp": "2019-08-05T11:07:26+08:00",
+ "deprecatedCount": 1
+}
+2019/08/05 11:07:07 ignore normal event
+2019/08/05 11:07:07 event: {
+ "metadata": {
+  "name": "fstest-ltlx6.15b7e7f7b7ec0ee1",
+  "generateName": "",
+  "namespace": "yunwei",
+  "selfLink": "/apis/events.k8s.io/v1beta1/namespaces/yunwei/events/fstest-ltlx6.15b7e7f7b7ec0ee1",
+  "uid": "274604f2-b72e-11e9-9e84-369c7c34da16",
+  "resourceVersion": "43498254",
+  "generation": 0,
+  "creationTimestamp": "2019-08-05T11:07:26+08:00",
+  "clusterName": ""
+ },
+ "eventTime": {},
+ "reportingController": "",
+ "reportingInstance": "",
+ "action": "",
+ "reason": "Started",
+ "regarding": {
+  "kind": "Pod",
+  "namespace": "yunwei",
+  "name": "fstest-ltlx6",
+  "uid": "22eb61ec-b72e-11e9-8753-767ef6f517db",
+  "apiVersion": "v1",
+  "resourceVersion": "43498185",
+  "fieldPath": "spec.containers{fstest}"
+ },
+ "note": "Started container fstest",
+ "type": "Normal",
+ "deprecatedSource": {
+  "component": "kubelet",
+  "host": "172.31.90.50"
+ },
+ "deprecatedFirstTimestamp": "2019-08-05T11:07:26+08:00",
+ "deprecatedLastTimestamp": "2019-08-05T11:07:26+08:00",
+ "deprecatedCount": 1
+}

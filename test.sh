@@ -1,0 +1,1 @@
+./k8s-watcher -fluentd=172.31.90.57:25141 -party 3

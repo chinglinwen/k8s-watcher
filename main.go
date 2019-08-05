@@ -72,6 +72,7 @@ func main() {
 	}
 
 	go watchdeploy()
+	go watchdaemon()
 	nodeList()
 	watchevent()
 }
