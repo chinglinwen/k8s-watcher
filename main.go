@@ -23,7 +23,7 @@ var (
 	receiverParty   = flag.String("party", "", "default receiver party ( eg. 3 )")
 	agentid         = flag.String("agentid", "", "default agentid ( eg. 1000003 )")
 	secret          = flag.String("secret", "", "default secret ( eg. G5h7CTEqkBw-Fe3luf2JM8UNNJAcYTpbXvpveY7M3lg )")
-	fluentd         = flag.String("fluentd", "", "fluentd udp address( eg. 172.31.90.57:25141 )")
+	fluentd         = flag.String("fluentd", "172.31.90.57:25141", "fluentd udp address( eg. 172.31.90.57:25141 )")
 
 	expire = flag.String("e", "10m", "default expire time duration")
 
@@ -70,6 +70,7 @@ func main() {
 		log.Println("args receiver and party is empty")
 		return
 	}
+	initFluentd()
 
 	go watchDeploy()
 	go watchDaemon()

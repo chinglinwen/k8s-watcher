@@ -85,6 +85,19 @@ func consumerAlert(e *coreevent.Event) {
 	message := formatevent(e)
 	log.Printf("%v", message)
 
+	// check pod exist or not
+	if strings.Contains(e.GetRegarding().GetKind(), "Pod") {
+		exist, err := checkpodexist(e)
+		if err != nil {
+			log.Println("checkpodexist err", err)
+			return
+		}
+		if !exist {
+			log.Println("pod already gone, ignore this event")
+			return
+		}
+	}
+
 	// ignore kube-router hostnetwork sometimes timeout issue
 	if strings.Contains(e.GetNote(), "(Client.Timeout") ||
 		strings.Contains(e.GetNote(), "Get http://172.") {
@@ -135,6 +148,18 @@ func consumerAlert(e *coreevent.Event) {
 	log.Printf("send reply: %v\n", strings.Split(reply, ",")[0])
 }
 
+func checkpodexist(e *coreevent.Event) (exist bool, err error) {
+	a := strings.Split(e.Metadata.GetName(), ".")
+	name := strings.Join(a[:len(a)-1], ".")
+	ns := e.Metadata.GetNamespace()
+
+	exist, err = CheckPodExist(ns, name)
+	if err != nil {
+		err = fmt.Errorf("CheckPodExist err", err)
+		return
+	}
+	return
+}
 func formatevent(e *coreevent.Event) string {
 	// a, _ := json.Marshal(e)
 	// fmt.Printf("json: %v", string(a))

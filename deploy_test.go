@@ -5,7 +5,7 @@ import (
 )
 
 func TestWatchDeploy(t *testing.T) {
-	watchdeploy()
+	watchDeploy()
 }
 
 var a = `

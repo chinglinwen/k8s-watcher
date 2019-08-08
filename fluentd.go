@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"flag"
 	"fmt"
 	"log"
 	"net"
@@ -14,8 +13,7 @@ import (
 
 var connFluentd net.Conn
 
-func init() {
-	flag.Parse()
+func initFluentd() {
 	var err error
 	connFluentd, err = net.Dial("udp", *fluentd)
 	if err != nil {
@@ -26,7 +24,7 @@ func init() {
 func consumerFluentd(e *coreevent.Event) (err error) {
 	buf, err := json.MarshalIndent(e, "", " ")
 	if err != nil {
-		err = fmt.Errorf("marshal event err", err)
+		err = fmt.Errorf("marshal event err: %v", err)
 		return
 	}
 	// log.Printf("event: %v\n", string(buf))
