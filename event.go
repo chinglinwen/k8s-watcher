@@ -117,6 +117,11 @@ func consumerAlert(e *coreevent.Event) {
 		return
 	}
 
+	if strings.Contains(e.GetNote(), "please apply your changes to the latest version and try again") {
+		log.Println("ignore FailedToUpdateEndpoint")
+		return
+	}
+
 	if e.Metadata.GetNamespace() == "wenzhenglin" {
 		log.Println("ignore wen's test project")
 		return
