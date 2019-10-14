@@ -160,7 +160,7 @@ func checkpodexist(e *coreevent.Event) (exist bool, err error) {
 
 	exist, err = CheckPodExist(ns, name)
 	if err != nil {
-		err = fmt.Errorf("CheckPodExist err", err)
+		err = fmt.Errorf("CheckPodExist err: %v", err)
 		return
 	}
 	return
