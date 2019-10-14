@@ -122,7 +122,7 @@ func consumerAlert(e *coreevent.Event) {
 		return
 	}
 
-	if e.Metadata.GetNamespace() == "wenzhenglin" {
+	if e.Metadata.GetNamespace() == "wenzhenglin" || e.Metadata.GetNamespace() == "robot" {
 		log.Println("ignore wen's test project")
 		return
 	}
