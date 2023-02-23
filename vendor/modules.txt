@@ -1,34 +1,34 @@
 # github.com/ericchiang/k8s v1.2.0
 github.com/ericchiang/k8s
+github.com/ericchiang/k8s/apis/apiextensions/v1beta1
 github.com/ericchiang/k8s/apis/apps/v1
 github.com/ericchiang/k8s/apis/core/v1
 github.com/ericchiang/k8s/apis/events/v1beta1
 github.com/ericchiang/k8s/apis/extensions/v1beta1
 github.com/ericchiang/k8s/apis/meta/v1
-github.com/ericchiang/k8s/runtime
-github.com/ericchiang/k8s/watch/versioned
 github.com/ericchiang/k8s/apis/policy/v1beta1
+github.com/ericchiang/k8s/apis/resource
+github.com/ericchiang/k8s/runtime
 github.com/ericchiang/k8s/runtime/schema
 github.com/ericchiang/k8s/util/intstr
-github.com/ericchiang/k8s/apis/apiextensions/v1beta1
-github.com/ericchiang/k8s/apis/resource
+github.com/ericchiang/k8s/watch/versioned
 # github.com/ghodss/yaml v1.0.0
 github.com/ghodss/yaml
 # github.com/golang/protobuf v1.3.1
 github.com/golang/protobuf/proto
 # github.com/pkg/errors v0.8.1
 github.com/pkg/errors
-# golang.org/x/net v0.0.0-20181220203305-927f97764cc3
-golang.org/x/net/http2
-golang.org/x/net/publicsuffix
+# golang.org/x/net v0.0.0-20220722155237-a158d28d115b
 golang.org/x/net/http/httpguts
+golang.org/x/net/http2
 golang.org/x/net/http2/hpack
 golang.org/x/net/idna
-# golang.org/x/text v0.3.2
+golang.org/x/net/publicsuffix
+# golang.org/x/text v0.3.8
 golang.org/x/text/secure/bidirule
+golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
-golang.org/x/text/transform
 # gopkg.in/resty.v1 v1.12.0
 gopkg.in/resty.v1
 # gopkg.in/yaml.v2 v2.2.2
